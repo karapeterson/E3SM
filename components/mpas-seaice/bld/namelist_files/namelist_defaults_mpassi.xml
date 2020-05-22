@@ -321,7 +321,7 @@
 <config_slow_mode_drainage_strength>-5.0e-8</config_slow_mode_drainage_strength>
 <config_slow_mode_critical_porosity>0.05</config_slow_mode_critical_porosity>
 <config_congelation_ice_porosity>0.85</config_congelation_ice_porosity>
-<config_lambda_pond>1.574e-6</config_lambda_pond>
+<config_lambda_pond>1.1574e-6</config_lambda_pond>
 
 <!-- itd -->
 <config_itd_conversion_type>'linear remap'</config_itd_conversion_type>
