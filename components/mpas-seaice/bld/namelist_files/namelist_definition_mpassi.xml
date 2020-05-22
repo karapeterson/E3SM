@@ -2014,6 +2014,14 @@ Valid values:
 Default: Defined in namelist_defaults.xml
 </entry>
 
+<entry id="config_snow_conductivity" type="real"
+       category="shortwave" group="shortwave">
+Snow conductivity. 
+
+Valid values: 
+Default: Defined in namelist_defaults.xml
+</entry>
+
 
 <!-- meltponds -->
 
@@ -2148,6 +2156,13 @@ Valid values: Any real number between 0 and 1.
 Default: Defined in namelist_defaults.xml
 </entry>
 
+<entry id="config_lambda_pond" type="real"
+       category="thermodynamics" group="thermodynamics">
+Drainage time scale of ponds.
+
+Valid values: 
+Default: Defined in namelist_defaults.xml
+</entry>
 
 <!-- itd -->
 
@@ -2309,6 +2324,14 @@ Default: Defined in namelist_defaults.xml
 
 
 Valid values: true or false
+Default: Defined in namelist_defaults.xml
+</entry>
+
+<entry id="config_ice_ocean_drag" type="real"
+       category="ocean" group="ocean">
+Ice ocean drag coefficient.
+
+Valid values:
 Default: Defined in namelist_defaults.xml
 </entry>
 

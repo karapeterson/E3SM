@@ -779,6 +779,7 @@ add_default($nl, 'config_snow_shortwave_tuning_parameter');
 add_default($nl, 'config_temp_change_snow_grain_radius_change');
 add_default($nl, 'config_max_melting_snow_grain_radius');
 add_default($nl, 'config_algae_absorption_coefficient');
+add_default($nl, 'config_snow_conductivity');
 
 #############################
 # Namelist group: meltponds #
@@ -805,6 +806,7 @@ add_default($nl, 'config_rapid_mode_aspect_ratio');
 add_default($nl, 'config_slow_mode_drainage_strength');
 add_default($nl, 'config_slow_mode_critical_porosity');
 add_default($nl, 'config_congelation_ice_porosity');
+add_default($nl, 'config_lambda_pond');
 
 #######################
 # Namelist group: itd #
@@ -848,6 +850,7 @@ if ($surface_mode eq 'non-free') {
         add_default($nl, 'config_ocean_surface_type', 'val'=>"free");
 }
 add_default($nl, 'config_couple_biogeochemistry_fields');
+add_default($nl, 'config_ice_ocean_drag');
 
 ###############################
 # Namelist group: diagnostics #

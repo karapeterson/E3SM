@@ -300,6 +300,7 @@
 <config_temp_change_snow_grain_radius_change>1.5</config_temp_change_snow_grain_radius_change>
 <config_max_melting_snow_grain_radius>1500.0</config_max_melting_snow_grain_radius>
 <config_algae_absorption_coefficient>0.6</config_algae_absorption_coefficient>
+<config_snow_conductivity>2.03</config_snow_conductivity>
 
 <!-- meltponds -->
 <config_snow_to_ice_transition_depth>0.0</config_snow_to_ice_transition_depth>
@@ -320,6 +321,7 @@
 <config_slow_mode_drainage_strength>-5.0e-8</config_slow_mode_drainage_strength>
 <config_slow_mode_critical_porosity>0.05</config_slow_mode_critical_porosity>
 <config_congelation_ice_porosity>0.85</config_congelation_ice_porosity>
+<config_lambda_pond>1.574e-6</config_lambda_pond>
 
 <!-- itd -->
 <config_itd_conversion_type>'linear remap'</config_itd_conversion_type>
@@ -347,6 +349,7 @@
 <config_sea_freezing_temperature_type>'mushy'</config_sea_freezing_temperature_type>
 <config_ocean_surface_type>'free'</config_ocean_surface_type>
 <config_couple_biogeochemistry_fields>false</config_couple_biogeochemistry_fields>
+<config_ice_ocean_drag>0.00536</config_ice_ocean_drag>
 
 <!-- diagnostics -->
 <config_check_state>false</config_check_state>
