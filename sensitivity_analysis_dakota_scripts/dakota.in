@@ -1,0 +1,33 @@
+environment,
+	output_precision = 16
+
+method, 
+        sampling
+           sample_type random
+           samples = 25
+	   output verbose
+
+variables
+  uniform_uncertain = 10
+    lower_bounds        0.2     1.15e-8          0.2e-3       0.02     1.0     2.0     0.1    600.0     0.2   7.0e-7   
+    upper_bounds        0.6     1.15e-4        160.0e-3     0.1      5.0     8.0     0.5    1800.0    1.0   3.0e-6
+    descriptors      'x1_ksno' 'x2_lambda_pond'  'x3_dragio'  'x4_dp1' 'x5_c1' 'x6_c8' 'x7_gamma' 'x8_tracer_kappa'  'x9_crit_bulk_rich'  'x10_salin_rest_piston_vel'
+
+interface,
+	system asynchronous evaluation_concurrency = 4
+	   analysis_driver = 'test-driver.sh'
+	      parameters_file = 'params.in'
+	      results_file = 'qoi.txt'
+	      file_tag
+	      file_save
+        work_directory
+           named 'test_dir' 
+	   directory_save
+	   directory_tag
+	   link_files = 'test-driver.sh' 
+	   copy_files = 'user_nl_cam.template' 'user_nl_mpascice.template' 'user_nl_mpaso.template'
+
+responses,
+	num_response_functions = 1
+	no_gradients
+	no_hessians

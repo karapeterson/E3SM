@@ -1,0 +1,120 @@
+
+This file describes how to set off a sensitivity study using our ULR E3SM (ne=4) model
+on skybridge:
+
+1a.) Clone the E3SM fork:
+
+git clone --recursive git@github.com:/karapeterson/E3SM.git
+
+git checkout add_namelist_params
+
+git submodule update
+
+1b.) Get specialized version of MPAS-source
+
+cd components
+
+rm -rf mpas-source
+
+git clone git@github.com:/karapeterson/MPAS-Model.git mpas-source 
+
+cd mpas-source
+
+git checkout add_namelist_params
+
+
+2.) Generate N random samples of the parameters we are perturbing as follows:
+
+cd sensitivity_analysis_dakota_scripts
+Edit dakota.in - change "samples" to whatever number of samples you would like to use, call it N
+source modules_dakota 
+dakota dakota.in 
+
+You should see N subdirs appear labeled test_dir.1, test_dir.2, ..., test_dir.N 
+
+3.) Copy scripts into main E3SM fork directory
+
+cp sensitivity_analysis_scripts/*sh ../.
+
+4.) The scripts currently in the above dir assume you are submitting to the priority queue.
+If you are not, please edit create_setup_build_submit_case_n.sh as follows:
+
+- replace FY180068P with FY180068 
+- Comment out the following 3 lines:
+    echo "Modifying env_batch.xml for case "$case_num "..."
+    cp $BASE_DIR/modify_env_batch_xml.sh /gscratch/$USER/acme_scratch/cases/master.A_WCYCL1850.ne4_oQU240.sensitivity_$case_num
+    source modify_env_batch_xml.sh
+
+5.) Now, you're ready to set off your sensitivity study.  Edit the file
+run_cases.sh and set the following variables at the top:
+
+num_cases=n
+E3SM_DIR=/path/to/E3SM
+REPO_DIR=/path/to/ArcticTippingPts
+
+n must be no larger than N, the number of samples you generated using Dakota.
+
+6.) Set off your sensitivity study as follows:
+
+source run_cases.sh 
+
+You can check on the output from each case by looking at the file with the names
+out_casei.txt where i = 1, ..., n.  It's important to check these for errors.  
+You should also find that after output that looks like: 
+
+Starting case 1 run...
+...done.
+
+has been printed to screen, a job has been submitted to the queue.  You should end up 
+with n jobs in the queue after the script run_cases.sh finishes.  The output from the cases
+will be found in the following dirs:
+
+/gpfs1/${USER}ikalash/acme_scratch/sandiatoss3/master.A_WCYCL1850.ne4_oQU240.sensitivity_i
+/gscratch/${USER}/acme_scratch/cases/master.A_WCYCL1850.ne4_oQU240.sensitivity_i
+/gscratch/${USER}/acme_scratch/sandiatoss3/master.A_WCYCL1850.ne4_oQU240.sensitivity_i
+
+where i = 1, ..., n.
+
+7.) Lets say you start step 5.) and you realized you messed up something and you'd like to 
+start over.  You can use the delete_case_output.sh to clear the output from the runs you did earlier.  
+The syntax is as follows:
+
+source delete_case_output.sh all: deletes all output dirs for all cases
+source delete_case_output.sh i: deletes output dirs for case i
+
+Be careful when using the delete_case_output.sh script, so as not to inadvertantly delete
+dirs you may need later!!! 
+ 
+8.) If you are submitting to the priority queue, you may need to reassign your job 
+to the priority queue, as the submission may not go to the right queue with the E3SM submission
+scripts.  To do this, first execute the following command to see if your jobs are in the 'normal' 
+or 'priority' queue: 
+
+squeue -o "%.9i %.10u %.12P %.6q %.3T %.20S %.8M %.11l %.4D %.30r %11Q %.V" | grep -v RUN | grep -v Dependency | sort -rnk6,6 -k 11,11 -r
+
+If your jobs are in the 'normal' queue, look up the <job_id> for each of your jobs by 
+doing 'squeue -u ${USER}'.  Then run the following command for each of your jobs:
+
+scontrol update job=<job_id> qos=priority 
+
+IMPORTANT: you will need to repeat the above procedure to jobs that get resubmitted to the queue automatically
+in the 25 year increments!
+
+NOTES: 
+- To check how long your job took to run, after it has terminated, execute the command: 'sacct -j <job_id> --format=Elapsed'
+- To check what queue your job is in: 
+
+squeue -o "%.9i %.10u %.12P %.6q %.3T %.20S %.8M %.11l %.4D %.30r %11Q %.V" | grep -v RUN | grep -v Dependency| sort -rnk6,6 -k 11,11 -r
+
+- To change job from normal queue to priority queue: 'scontrol update job=<job_id> qos=priority'
+
+- To change job time limit: 'scontrol update job=<job_id> TimeLimit=26:00:00'
+
+- To resubmit a job that has timed out or died due to a node failure (for the specific case of a run on /nscratch):
+
+cd /nscratch/${USER}/acme_scratch/cases/master.A_WCYCL1850.ne4_oQU240.sensitivity_XX
+./case.submit 
+
+Note that this assumes that e3sm_env.sh has been sourced already.  If it hasn't this needs to happen prior to running ./case.submit .
+
+
