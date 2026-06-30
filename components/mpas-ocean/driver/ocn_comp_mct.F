@@ -2505,13 +2505,13 @@ contains
            snowFlux(i) = x2o_o(index_x2o_Faxa_snow, n)
         end if
         if ( seaIceFreshWaterFluxField % isActive ) then
-           seaIceFreshWaterFlux(i) = x2o_o(index_x2o_Fioi_meltw, n)
+           seaIceFreshWaterFlux(i) = x2o_o(index_x2o_Fioi_meltw, n) + x2o_o(index_x2o_Fioi_frazil, n)
         end if
         if ( icebergFreshWaterFluxField % isActive ) then
            icebergFreshWaterFlux(i) = x2o_o(index_x2o_Fioi_bergw, n)
         end if
         if ( seaIceSalinityFluxField % isActive ) then
-           seaIceSalinityFlux(i) = x2o_o(index_x2o_Fioi_salt, n)
+           seaIceSalinityFlux(i) = x2o_o(index_x2o_Fioi_salt, n) + x2o_o(index_x2o_Fioi_frazils, n)
         end if
 
         if ( riverRunoffFluxField % isActive ) then
@@ -3405,7 +3405,7 @@ contains
 
              o2x_o(index_o2x_Fioo_q, n)  = seaIceEnergy(i) / ocn_cpl_dt
              o2x_o(index_o2x_Fioo_frazil, n) = accumulatedFrazilIceMass(i) / ocn_cpl_dt
-             o2x_o(index_o2x_Fioo_frazils, n) = 4.0_RKIND
+             o2x_o(index_o2x_Fioo_frazils, n) = 0.0_RKIND
              o2x_o(index_o2x_Fioo_frazilh, n) = 0.0_RKIND
 
           else

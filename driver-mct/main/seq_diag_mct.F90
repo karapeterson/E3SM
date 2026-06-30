@@ -2033,6 +2033,7 @@ contains
              if ( flds_wiso )then
                 dataGpr(iso0(1):isof(nisotopes),:,:) = dataGpr(iso0(1):isof(nisotopes),:,:) * 1.0e6_r8
              end if
+             dataGpr(f_s:f_s_end,:,:) = dataGpr(f_s:f_s_end,:,:) * 1.0e8_r8
              dataGpr = dataGpr/budg_ns
 
              if (iam /= 0) return
